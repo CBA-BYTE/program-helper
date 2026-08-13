@@ -10,6 +10,7 @@
 - Fixed the import path by adding a pytest configuration so project modules resolve correctly when running tests from the repo root.
 - Re-ran the smoke test and confirmed the project loads its modules correctly after the path fix.
 - Final verification: the runtime logic was tested again and the smoke test was corrected to match real game semantics, where an unlocked door reports False as expected.
+- Added a launcher resilience fix for Windows/Python 3.14: installers now prefer binary wheels and automatically fall back from `pygame` to `pygame-ce` when no official `pygame` wheel exists.
 
 ## Overview
 
@@ -31,8 +32,9 @@ python run_all.py
 
 This script performs the full sequence in order:
 1. creates the project virtual environment
-2. installs the required packages
-3. launches the Pygame game
+2. upgrades packaging tools (`pip`, `setuptools`, `wheel`)
+3. installs a binary graphics runtime (`pygame`, or `pygame-ce` fallback)
+4. launches the Pygame game
 
 ### Windows
 ```bash
